@@ -1,50 +1,44 @@
-# React + TypeScript + Vite
+# Redux Toolkit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+It is used for state management. 
 
-Currently, two official plugins are available:
+Used over Redux as it reduces the initial code setup required by Redux. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Parts of RTK ⇒ 
 
-## Expanding the ESLint configuration
+Store - Contains various reducers, middleware, etc.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+We need to provide the store to the app just like we do with the context. 
 
-- Configure the top-level `parserOptions` property like this:
+ 
+Slice — The store stores the state by dividing it into multiple reducers. This is used to separate concerns. Each reducer handles a part of the state. Slice is used to create a reducer and its actions.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+ 
+Actions - Are functions used to interact with the state through a slice. 
+Structure of the action - ({type: "Increment", payload: data}), payload is an optional argument. 
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Reducer - Is a part of a Redux slice. Through this, the redux store has access to one of its states. 
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Pointers - 
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Redux never mutates the state directly.
+It makes a copy of the state and then interacts with it. (This happens internally.)
+
+It is important to add types for states and actions.  
+
+Typical Redux workflow → 
+Store -> Slice -> state -> reducers -> actions
+
+Component -> use Selector -> state
+
+component -> dispatch -> action -> update the state
+
+Async actions / Thunks → 
+
+An async function that can be used for async actions. 
+
+Async actions are a part of the extra Reducers in the create slice function. 
+
+Flow → 
+
+component → dispatch → async function → async reducers → pending → action → fulfilled → action
